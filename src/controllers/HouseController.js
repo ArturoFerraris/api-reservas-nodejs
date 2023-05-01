@@ -1,6 +1,9 @@
-import House from '../models/House';
-import User from '../models/User';
-import * as Yup from 'yup';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable camelcase */
+import * as Yup from "yup";
+import House from "../models/House";
+import User from "../models/User";
 
 class HouseController {
   async index(req, res) {
@@ -15,14 +18,14 @@ class HouseController {
       description: Yup.string().required(),
       price: Yup.number().required(),
       location: Yup.string().required(),
-      status: Yup.boolean().required()
+      status: Yup.boolean().required(),
     });
     const { filename } = req.file;
     const { description, price, location, status } = req.body;
     const { user_id } = req.headers;
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Falha na validação' });
+      return res.status(400).json({ error: "Falha na validação" });
     }
 
     const house = await House.create({
@@ -31,7 +34,7 @@ class HouseController {
       description,
       price,
       location,
-      status
+      status,
     });
 
     return res.json({ house });
@@ -42,7 +45,7 @@ class HouseController {
       description: Yup.string().required(),
       price: Yup.number().required(),
       location: Yup.string().required(),
-      status: Yup.boolean().required()
+      status: Yup.boolean().required(),
     });
     const { filename } = req.file;
     const { house_id } = req.params;
@@ -50,14 +53,14 @@ class HouseController {
     const { user_id } = req.headers;
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Falha na validação' });
+      return res.status(400).json({ error: "Falha na validação" });
     }
 
     const user = await User.findById(user_id);
     const houses = await House.findById(house_id);
 
     if (String(user._id) !== String(houses.user)) {
-      return res.status(401).json({ error: 'Erro, não autorizado.' });
+      return res.status(401).json({ error: "Erro, não autorizado." });
     }
 
     await House.updateOne(
@@ -68,7 +71,7 @@ class HouseController {
         description,
         price,
         location,
-        status
+        status,
       }
     );
 
@@ -83,12 +86,12 @@ class HouseController {
     const houses = await House.findById(house_id);
 
     if (String(user._id) !== String(houses.user)) {
-      return res.status(401).json({ error: 'Erro, não autorizado.' });
+      return res.status(401).json({ error: "Erro, não autorizado." });
     }
 
     await House.findByIdAndDelete({ _id: house_id });
 
-    return res.json({ message: 'Deletada com sucesso' });
+    return res.json({ message: "Deletada com sucesso" });
   }
 }
 

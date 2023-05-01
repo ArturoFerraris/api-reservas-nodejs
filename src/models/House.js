@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+/* eslint-disable func-names */
+import { Schema, model } from "mongoose";
 
 const HouseSchema = new Schema(
   {
@@ -9,18 +10,18 @@ const HouseSchema = new Schema(
     status: Boolean,
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
+      ref: "User",
+    },
   },
   {
     toJSON: {
-      virtuals: true
-    }
+      virtuals: true,
+    },
   }
 );
 
-HouseSchema.virtual('thumbnail_url').get(function () {
+HouseSchema.virtual("thumbnail_url").get(function () {
   return `http://localhost:3333/files/${this.thumbnail}`;
 });
 
-export default model('House', HouseSchema);
+export default model("House", HouseSchema);
